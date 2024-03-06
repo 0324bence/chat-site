@@ -1,16 +1,13 @@
 import { ApiProperty, ApiQuery } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
+import { UserDto } from "./user.dto";
 
-export class UserDto {
-    @IsNotEmpty()
-    @ApiProperty()
-    id: number;
-
+export class UserCreateDto {
     @IsNotEmpty()
     @ApiProperty()
     name: string;
 
     @IsNotEmpty()
     @ApiProperty()
-    picture: string;
+    password: string;
 }

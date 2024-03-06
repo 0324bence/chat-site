@@ -1,5 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus, Param, Post, Query } from "@nestjs/common";
-import { ApiOkResponse, ApiOperation } from "@nestjs/swagger";
+import { ApiOkResponse, ApiOperation, ApiParam } from "@nestjs/swagger";
+import { UserCreateDto } from "./user-create.dto";
 import { UserDto } from "./user.dto";
 import { User } from "./user.entity";
 import { UsersService } from "./users.service";
@@ -24,7 +25,7 @@ export class UsersController {
 
     @Post("add")
     @ApiOperation({ summary: "Add a new user" })
-    async addUser(@Query() user: UserDto) {
+    async addUser(@Query() user: UserCreateDto) {
         return await this.usersService.add(user).catch(err => {
             throw new HttpException({ message: err.message }, HttpStatus.BAD_REQUEST);
         });
