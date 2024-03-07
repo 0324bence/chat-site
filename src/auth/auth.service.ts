@@ -1,14 +1,16 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService) {}
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService
+    ) {}
 
     async logIn(username: string, password: string) {
         const pass = await this.usersService.getPassByName(username);
-        console.log(pass);
-        console.log(password);
         if (pass == null) {
             throw new UnauthorizedException("No such user");
         }
@@ -16,6 +18,6 @@ export class AuthService {
             throw new UnauthorizedException("Invalid password");
         }
 
-        return "OK";
+        return { access_token: await this.jwtService.signAsync({ username }) };
     }
 }
