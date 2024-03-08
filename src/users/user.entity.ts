@@ -12,5 +12,5 @@ export class User {
     picture: string;
 
     @Column({ select: false })
-    password: string;
+    passwordHash: string;
 }

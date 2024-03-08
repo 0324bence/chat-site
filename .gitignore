@@ -54,3 +54,8 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# frontend folders
+src/chat-frontend/node_modules
+src/chat-frontend/.svelte-kit
+src/chat-frontend/.idea

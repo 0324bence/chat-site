@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { UserCreateDto } from "./user-create.dto";
 import { UserDto } from "./user.dto";
 import { User } from "./user.entity";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
@@ -20,16 +21,19 @@ export class UsersService {
         return this.usersRepository.findOneBy({ id });
     }
 
-    async getPassByName(name: string): Promise<string | null> {
+    async getPassHashByName(name: string): Promise<string | null> {
         let val = await this.usersRepository
             .createQueryBuilder("user")
-            .select(["user.password"])
+            .select(["user.passwordHash"])
             .where("user.name = :name", { name: name })
             .getOne();
-        return val?.password;
+        return val?.passwordHash;
     }
 
     async add(user: UserCreateDto): Promise<void> {
-        await this.usersRepository.insert(user).catch();
+        let passHash = await bcrypt.hash(user.password, 10);
+        let toAdd = { ...user, passwordHash: passHash };
+
+        await this.usersRepository.insert(toAdd).catch();
     }
 }

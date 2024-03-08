@@ -11,6 +11,6 @@ export class UserDto {
     name: string;
 
     @IsNotEmpty()
-    @ApiProperty()
+    @ApiProperty({ nullable: true })
     picture: string;
 }
