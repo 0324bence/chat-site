@@ -12,7 +12,6 @@ export class AuthService {
     ) {}
 
     async logIn(username: string, password: string) {
-        console.log(username);
         const hash = await this.usersService.getPassHashByName(username);
         if (hash == null) {
             throw new UnauthorizedException("No such user");

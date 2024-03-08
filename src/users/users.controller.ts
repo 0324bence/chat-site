@@ -1,6 +1,5 @@
 import { Controller, Get, HttpException, HttpStatus, Param, Post, Query, Body, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam } from "@nestjs/swagger";
-import { Public } from "src/auth/decorators/public.decorator";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UserCreateDto } from "./user-create.dto";
 import { SetUserPictureDto, UserDto } from "./user.dto";
@@ -12,7 +11,6 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
-    @Public()
     @ApiOperation({ summary: "List all users", tags: ["users"] })
     @ApiOkResponse({ type: UserDto, isArray: true })
     getUsers() {
