@@ -5,8 +5,10 @@ import { UsersModule } from "../users/users.module";
 import { UsersService } from "src/users/users.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/users/user.entity";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { jwtConstants } from "./constants";
+import { APP_GUARD } from "@nestjs/core";
+import { JwtAuthGuard } from "./jwt-auth.guard";
 
 @Module({
     imports: [
@@ -18,7 +20,8 @@ import { jwtConstants } from "./constants";
             signOptions: { expiresIn: "60s" }
         })
     ],
-    providers: [AuthService, UsersService],
-    controllers: [AuthController]
+    providers: [AuthService, UsersService, JwtService],
+    controllers: [AuthController],
+    exports: [AuthService]
 })
 export class AuthModule {}

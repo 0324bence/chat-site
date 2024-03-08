@@ -14,3 +14,13 @@ export class UserDto {
     @ApiProperty({ nullable: true })
     picture: string;
 }
+
+export class SetUserPictureDto {
+    @IsNotEmpty()
+    @ApiProperty()
+    id: number;
+
+    @IsNotEmpty()
+    @ApiProperty()
+    picture: string;
+}
