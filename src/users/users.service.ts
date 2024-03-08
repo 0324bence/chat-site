@@ -36,4 +36,11 @@ export class UsersService {
 
         await this.usersRepository.insert(toAdd).catch();
     }
+
+    async setUserPicture(name: string, picture: string) {
+        console.log(`Setting picture of user: ${name} to ${picture}`);
+        var user = await this.usersRepository.findOneBy({ name });
+        user.picture = picture;
+        await this.usersRepository.save(user);
+    }
 }

@@ -1,9 +1,19 @@
-import { Controller, Get, HttpException, HttpStatus, Param, Post, Query, Body, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam } from "@nestjs/swagger";
+import {
+    Controller,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    Post,
+    Query,
+    Body,
+    UseGuards,
+    Request
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UserCreateDto } from "./user-create.dto";
-import { SetUserPictureDto, UserDto } from "./user.dto";
-import { User } from "./user.entity";
+import { UserDto } from "./user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
@@ -36,8 +46,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: "Set a user's profile picture", tags: ["users"] })
-    setPicture(@Body() body: SetUserPictureDto) {
-        console.log(body);
-        return "SUCCESS";
+    setPicture(@Body("picture") picture: string, @Request() req) {
+        this.usersService.setUserPicture(req["user"].username, picture);
     }
 }
