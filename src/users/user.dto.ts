@@ -1,5 +1,5 @@
 import { ApiProperty, ApiQuery } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, isNotEmpty } from "class-validator";
 
 export class UserDto {
     @IsNotEmpty()
@@ -12,5 +12,11 @@ export class UserDto {
 
     @IsNotEmpty()
     @ApiProperty({ nullable: true })
+    picture: string;
+}
+
+export class SetUserPictureDto {
+    @IsNotEmpty()
+    @ApiProperty()
     picture: string;
 }

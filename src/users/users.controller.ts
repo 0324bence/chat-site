@@ -13,7 +13,7 @@ import {
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UserCreateDto } from "./user-create.dto";
-import { UserDto } from "./user.dto";
+import { SetUserPictureDto, UserDto } from "./user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
@@ -46,7 +46,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: "Set a user's profile picture", tags: ["users"] })
-    setPicture(@Body("picture") picture: string, @Request() req) {
-        this.usersService.setUserPicture(req["user"].username, picture);
+    setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
+        this.usersService.setUserPicture(req["user"].username, picture.picture);
     }
 }
