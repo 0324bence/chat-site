@@ -36,7 +36,7 @@ export class UsersController {
 
     @Post("add")
     @ApiOperation({ summary: "Add a new user", tags: ["users"] })
-    async addUser(@Query() user: UserCreateDto) {
+    async addUser(@Body() user: UserCreateDto) {
         return await this.usersService.add(user).catch(err => {
             throw new HttpException({ message: err.message }, HttpStatus.BAD_REQUEST);
         });
