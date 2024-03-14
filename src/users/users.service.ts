@@ -5,12 +5,15 @@ import { UserCreateDto } from "./user-create.dto";
 import { UserDto } from "./user.dto";
 import { User } from "./user.entity";
 import * as bcrypt from "bcrypt";
+import { Friendship } from "./friendship.entity";
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
-        private usersRepository: Repository<User>
+        private usersRepository: Repository<User>,
+        @InjectRepository(Friendship)
+        private friendshipsRepository: Repository<Friendship>
     ) {}
 
     getAll(): Promise<User[]> {
@@ -42,5 +45,9 @@ export class UsersService {
         var user = await this.usersRepository.findOneBy({ name });
         user.picture = picture;
         await this.usersRepository.save(user);
+    }
+
+    addFriendReq(name1: string, name2: string) {
+        this.friendshipsRepository.insert({ user1: name1, user2: name2 });
     }
 }

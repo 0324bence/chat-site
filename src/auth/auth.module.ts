@@ -9,11 +9,12 @@ import { JwtModule, JwtService } from "@nestjs/jwt";
 import { jwtConstants } from "./constants";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./jwt-auth.guard";
+import { Friendship } from "src/users/friendship.entity";
 
 @Module({
     imports: [
         UsersModule,
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Friendship]),
         JwtModule.register({
             global: true,
             secret: jwtConstants.secret,

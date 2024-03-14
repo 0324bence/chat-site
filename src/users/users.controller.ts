@@ -49,4 +49,12 @@ export class UsersController {
     setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
         this.usersService.setUserPicture(req["user"].username, picture.picture);
     }
+
+    @Post("sendFriendRequest")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Send a friend request to a user", tags: ["users"] })
+    addFriend(@Query("user") another: string, @Request() req) {
+        this.usersService.addFriendReq(req["user"].username, another);
+    }
 }
