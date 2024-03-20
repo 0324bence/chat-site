@@ -1,8 +1,9 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, Unique } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity()
+@Unique(["user1", "user2"])
 export class Friendship {
     @PrimaryGeneratedColumn()
     id: number;

@@ -54,6 +54,8 @@ export class UsersService {
         } catch (error) {
             if (error.driverError.code == "ER_NO_REFERENCED_ROW_2") {
                 throw new BadRequestException("No such user");
+            } else if (error.driverError.code == "ER_DUP_ENTRY") {
+                throw new BadRequestException("Friend request already exists");
             }
             throw error;
         }
