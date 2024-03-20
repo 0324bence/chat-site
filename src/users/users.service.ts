@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserCreateDto } from "./user-create.dto";
@@ -48,6 +48,7 @@ export class UsersService {
     }
 
     addFriendReq(name1: string, name2: string) {
+        if (name1 == name2) throw new BadRequestException("Both users are the same");
         this.friendshipsRepository.insert({ user1: name1, user2: name2 });
     }
 }

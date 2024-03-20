@@ -7,7 +7,6 @@ export class User {
     id: number;
 
     @Column({ unique: true })
-    @OneToOne(() => Friendship)
     name: string;
 
     @Column({ default: null, nullable: true })

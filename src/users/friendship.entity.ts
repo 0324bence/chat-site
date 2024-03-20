@@ -1,14 +1,20 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { IsNotEmpty } from "class-validator";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from "typeorm";
+import { User } from "./user.entity";
 
 @Entity()
 export class Friendship {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @IsNotEmpty()
+    @ManyToOne(() => User)
+    @JoinColumn({ referencedColumnName: "name" })
     user1: string;
 
-    @Column()
+    @IsNotEmpty()
+    @ManyToOne(() => User)
+    @JoinColumn({ referencedColumnName: "name" })
     user2: string;
 
     @Column({ default: false })
