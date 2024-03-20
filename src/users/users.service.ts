@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { QueryFailedError, Repository } from "typeorm";
 import { UserCreateDto } from "./user-create.dto";
 import { UserDto } from "./user.dto";
 import { User } from "./user.entity";
@@ -47,8 +47,15 @@ export class UsersService {
         await this.usersRepository.save(user);
     }
 
-    addFriendReq(name1: string, name2: string) {
-        if (name1 == name2) throw new BadRequestException("Both users are the same");
-        this.friendshipsRepository.insert({ user1: name1, user2: name2 });
+    async addFriendReq(name1: string, name2: string) {
+        if (name1 == name2) throw new BadRequestException("Users are the same");
+        try {
+            await this.friendshipsRepository.insert({ user1: name1, user2: name2 });
+        } catch (error) {
+            if (error.driverError.code == "ER_NO_REFERENCED_ROW_2") {
+                throw new BadRequestException("No such user");
+            }
+            throw error;
+        }
     }
 }

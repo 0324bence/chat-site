@@ -54,7 +54,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: "Send a friend request to a user", tags: ["users"] })
-    addFriend(@Body("user") another: string, @Request() req) {
-        this.usersService.addFriendReq(req["user"].username, another);
+    async addFriend(@Body("user") another: string, @Request() req) {
+        await this.usersService.addFriendReq(req["user"].username, another);
     }
 }
