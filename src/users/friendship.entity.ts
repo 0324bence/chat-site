@@ -8,12 +8,12 @@ export class Friendship {
     id: number;
 
     @IsNotEmpty()
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { nullable: false })
     @JoinColumn({ referencedColumnName: "name" })
     user1: string;
 
     @IsNotEmpty()
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { nullable: false })
     @JoinColumn({ referencedColumnName: "name" })
     user2: string;
 
