@@ -60,4 +60,14 @@ export class UsersService {
             throw error;
         }
     }
+
+    async acceptFriendReq(name1: string, name2: string) {
+        if (name1 == name2) throw new BadRequestException("The users cannot be the same");
+
+        let friendship = await this.friendshipsRepository.findOneBy({ user1: name1, user2: name2 });
+        if (friendship == null) throw new BadRequestException("No such friend request");
+
+        friendship.accepted = true;
+        await this.usersRepository.save(friendship);
+    }
 }

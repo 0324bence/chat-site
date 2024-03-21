@@ -57,4 +57,12 @@ export class UsersController {
     async addFriend(@Body("user") another: string, @Request() req) {
         await this.usersService.addFriendReq(req["user"].username, another);
     }
+
+    @Post("acceptFriendRequest")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Accept a friend request", tags: ["users"] })
+    async acceptFriendReq(@Body("user") another: string, @Request() req) {
+        await this.usersService.acceptFriendReq(another, req["user"].username);
+    }
 }
