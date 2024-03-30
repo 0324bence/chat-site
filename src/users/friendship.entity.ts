@@ -10,12 +10,12 @@ export class Friendship {
 
     @IsNotEmpty()
     @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ referencedColumnName: "name" })
+    @JoinColumn({ referencedColumnName: "name", name: "user1" })
     user1: string;
 
     @IsNotEmpty()
     @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ referencedColumnName: "name" })
+    @JoinColumn({ referencedColumnName: "name", name: "user2" })
     user2: string;
 
     @Column({ default: false })

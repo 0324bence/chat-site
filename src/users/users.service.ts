@@ -64,10 +64,15 @@ export class UsersService {
     async acceptFriendReq(name1: string, name2: string) {
         if (name1 == name2) throw new BadRequestException("The users cannot be the same");
 
-        let friendship = await this.friendshipsRepository.findOneBy({ user1: name1, user2: name2 });
+        let friendship = await this.friendshipsRepository
+            .createQueryBuilder("friendship")
+            .where("friendship.user1 = :name1 AND friendship.user2 = :name2", { name1, name2 })
+            .getOne();
+
         if (friendship == null) throw new BadRequestException("No such friend request");
+        if (friendship.accepted) throw new BadRequestException("Friend request has already been accepted");
 
         friendship.accepted = true;
-        await this.usersRepository.save(friendship);
+        await this.friendshipsRepository.save(friendship);
     }
 }
