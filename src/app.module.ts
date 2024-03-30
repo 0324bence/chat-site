@@ -6,6 +6,7 @@ import { UsersService } from "./users/users.service";
 import { UsersModule } from "./users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/user.entity";
+import { Friendship } from "./users/friendship.entity";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
@@ -22,7 +23,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
                 password: configService.get<string>("DB_PASS"),
                 database: configService.get<string>("DB_TABLE"),
                 synchronize: true,
-                entities: [User]
+                entities: [User, Friendship]
             }),
             inject: [ConfigService]
         }),

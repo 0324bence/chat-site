@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { Friendship } from "./friendship.entity";
 
 @Entity()
 export class User {

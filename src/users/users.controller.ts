@@ -49,4 +49,20 @@ export class UsersController {
     setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
         this.usersService.setUserPicture(req["user"].username, picture.picture);
     }
+
+    @Post("sendFriendRequest")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Send a friend request to a user", tags: ["users"] })
+    async addFriend(@Body("user") another: string, @Request() req) {
+        await this.usersService.addFriendReq(req["user"].username, another);
+    }
+
+    @Post("acceptFriendRequest")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Accept a friend request", tags: ["users"] })
+    async acceptFriendReq(@Body("user") another: string, @Request() req) {
+        await this.usersService.acceptFriendReq(another, req["user"].username);
+    }
 }
