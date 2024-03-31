@@ -50,7 +50,7 @@ export class UsersService {
     async addFriendReq(name1: string, name2: string) {
         if (name1 == name2) throw new BadRequestException("Users are the same");
         try {
-            await this.friendshipsRepository.insert({ user1: name1, user2: name2 });
+            await this.friendshipsRepository.insert({ user1Name: name1, user2Name: name2 });
         } catch (error) {
             if (error.driverError.code == "ER_NO_REFERENCED_ROW_2") {
                 throw new BadRequestException("No such user");
@@ -74,5 +74,21 @@ export class UsersService {
 
         friendship.accepted = true;
         await this.friendshipsRepository.save(friendship);
+    }
+
+    async getIncomingFriendRequests(name: string) {
+        let friendships = await (
+            await this.friendshipsRepository.findBy({ user2Name: name, accepted: false })
+        ).map(x => x.user1Name);
+        console.log(friendships);
+        return friendships;
+    }
+
+    async getSentFriendRequests(name: string) {
+        let friendships = await (
+            await this.friendshipsRepository.findBy({ user1Name: name, accepted: false })
+        ).map(x => x.user2Name);
+        console.log(friendships);
+        return friendships;
     }
 }

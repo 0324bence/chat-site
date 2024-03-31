@@ -74,4 +74,30 @@ export class UsersController {
     async acceptFriendReq(@Body() body: AcceptFriendRequestDto, @Request() req) {
         await this.usersService.acceptFriendReq(body.user, req["user"].username);
     }
+
+    @Get("getIncomingFriendRequests")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({
+        summary: "Get the incoming friend requests",
+        description: "Only not accepted friend requests are returned, because accepted requests represent friends.",
+        tags: ["users"]
+    })
+    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    async getIncomingFriendRequests(@Request() req) {
+        return await this.usersService.getIncomingFriendRequests(req.user.username);
+    }
+
+    @Get("getSentFriendRequests")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({
+        summary: "Get the incoming friend requests",
+        description: "Only not accepted friend requests are returned, because accepted requests represent friends.",
+        tags: ["users"]
+    })
+    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    async getSentFriendRequests(@Request() req) {
+        return await this.usersService.getSentFriendRequests(req.user.username);
+    }
 }

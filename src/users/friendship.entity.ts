@@ -8,14 +8,20 @@ export class Friendship {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @IsNotEmpty()
-    @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ referencedColumnName: "name", name: "user1" })
-    user1: string;
+    @Column({ nullable: true })
+    user1Name: string;
 
     @IsNotEmpty()
     @ManyToOne(() => User, { nullable: false })
-    @JoinColumn({ referencedColumnName: "name", name: "user2" })
+    @JoinColumn({ referencedColumnName: "name" })
+    user1: string;
+
+    @Column({ nullable: true })
+    user2Name: string;
+
+    @IsNotEmpty()
+    @ManyToOne(() => User, { nullable: false })
+    @JoinColumn({ referencedColumnName: "name" })
     user2: string;
 
     @Column({ default: false })
