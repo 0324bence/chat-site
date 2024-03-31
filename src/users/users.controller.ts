@@ -50,6 +50,14 @@ export class UsersController {
         this.usersService.setUserPicture(req["user"].username, picture.picture);
     }
 
+    @Get("getOwnUsername")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Get the name of the logged in user", tags: ["users"] })
+    getOwnUsername(@Request() req) {
+        return req["user"].username;
+    }
+
     @Post("sendFriendRequest")
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
