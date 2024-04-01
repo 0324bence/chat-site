@@ -32,7 +32,7 @@ export class UsersController {
     @Get("searchUsersByName")
     @ApiOperation({ summary: "Search users by beginning or part of their names", tags: ["users"] })
     @ApiOkResponse({ type: UserDto, isArray: true })
-    async searchUsersByName(@Body() query: SearchUserDto) {
+    async searchUsersByName(@Query() query: SearchUserDto) {
         return await this.usersService.searchUsersByName(
             query.value,
             (query.onlyBeginning ?? true).toString().toLowerCase() == "true"
