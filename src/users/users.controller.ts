@@ -44,12 +44,13 @@ export class UsersController {
         });
     }
 
-    @Post("setPicture")
+    @Get("getOwnUserData")
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @ApiOperation({ summary: "Set a user's profile picture", tags: ["users"] })
-    setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
-        this.usersService.setUserPicture(req["user"].username, picture.picture);
+    @ApiOperation({ summary: "Get information about the logged in user", tags: ["users"] })
+    @ApiOkResponse({ type: UserDto })
+    getOwnUserData(@Request() req) {
+        return this.usersService.getOwnUserData(req.user.username);
     }
 
     @Get("getOwnUsername")
@@ -60,6 +61,14 @@ export class UsersController {
     @ApiOkResponse({ type: String })
     getOwnUsername(@Request() req) {
         return req["user"].username;
+    }
+
+    @Post("setPicture")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Set a user's profile picture", tags: ["users"] })
+    setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
+        this.usersService.setUserPicture(req["user"].username, picture.picture);
     }
 
     @Post("sendFriendRequest")
