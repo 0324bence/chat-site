@@ -8,9 +8,10 @@ import {
     Query,
     Body,
     UseGuards,
-    Request
+    Request,
+    Header
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { AcceptFriendRequestDto, SendFriendRequestDto } from "./friend.dto";
 import { UserCreateDto } from "./user-create.dto";
@@ -53,8 +54,10 @@ export class UsersController {
 
     @Get("getOwnUsername")
     @UseGuards(JwtAuthGuard)
+    @Header("Content-Type", "text/plain")
     @ApiBearerAuth()
     @ApiOperation({ summary: "Get the name of the logged in user", tags: ["users"] })
+    @ApiOkResponse({ type: String })
     getOwnUsername(@Request() req) {
         return req["user"].username;
     }

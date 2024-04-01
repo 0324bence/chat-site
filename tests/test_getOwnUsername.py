@@ -16,3 +16,5 @@ print("user1 calls endpoint")
 resp = requests.get(API_BASE+"/users/getOwnUsername", headers={"Authorization": f"Bearer {user1Token}"})
 checkError(resp)
 print(f"API returned: '{resp.text}'");
+print(f"API returned: '{resp.headers['Content-Type']}'");
+
