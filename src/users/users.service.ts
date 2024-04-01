@@ -109,4 +109,10 @@ export class UsersService {
         console.log(friendships);
         return friendships;
     }
+
+    async areFriends(user1: string, user2: string) {
+        let fs1 = !!(await this.friendshipsRepository.findOneBy({ user1Name: user1, user2Name: user2 }));
+        let fs2 = !!(await this.friendshipsRepository.findOneBy({ user1Name: user2, user2Name: user2 }));
+        return fs1 || fs2;
+    }
 }
