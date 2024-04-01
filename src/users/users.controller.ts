@@ -122,4 +122,17 @@ export class UsersController {
     async getSentFriendRequests(@Request() req) {
         return await this.usersService.getSentFriendRequests(req.user.username);
     }
+
+    @Get("getFriends")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({
+        summary: "Get the list of friends",
+        description: "Only accepted friend requests are returned.",
+        tags: ["users"]
+    })
+    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    async getFriends(@Request() req) {
+        return await this.usersService.getFriends(req.user.username);
+    }
 }

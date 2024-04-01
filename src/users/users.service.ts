@@ -115,4 +115,20 @@ export class UsersService {
         let fs2 = !!(await this.friendshipsRepository.findOneBy({ user1Name: user2, user2Name: user2 }));
         return fs1 || fs2;
     }
+
+    async getFriends(user: string) {
+        let friends1 = (
+            await this.friendshipsRepository.find({
+                where: { user1Name: user, accepted: true },
+                select: { user2Name: true }
+            })
+        ).map(x => x.user2Name);
+        let friends2 = (
+            await this.friendshipsRepository.find({
+                where: { user2Name: user, accepted: true },
+                select: { user1Name: true }
+            })
+        ).map(x => x.user1Name);
+        return friends1.concat(friends2);
+    }
 }

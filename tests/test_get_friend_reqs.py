@@ -50,3 +50,15 @@ print("user2 gets sent friend requests")
 resp = requests.get(API_BASE+"/users/getSentFriendRequests", headers={"Authorization": f"Bearer {user2Token}"})
 checkError(resp)
 print(resp.text)
+
+
+
+print("user1 gets friends")
+resp = requests.get(API_BASE+"/users/getFriends", headers={"Authorization": f"Bearer {user1Token}"})
+checkError(resp)
+print(resp.text)
+
+print("user2 gets friends")
+resp = requests.get(API_BASE+"/users/getFriends", headers={"Authorization": f"Bearer {user2Token}"})
+checkError(resp)
+print(resp.text)
