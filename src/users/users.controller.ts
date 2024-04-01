@@ -15,7 +15,7 @@ import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/s
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { AcceptFriendRequestDto, SendFriendRequestDto } from "./friend.dto";
 import { UserCreateDto } from "./user-create.dto";
-import { SetUserPictureDto, UserDto } from "./user.dto";
+import { SearchUserDto, SetUserPictureDto, UserDto } from "./user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
@@ -27,6 +27,16 @@ export class UsersController {
     @ApiOkResponse({ type: UserDto, isArray: true })
     getUsers() {
         return this.usersService.getAll();
+    }
+
+    @Get("searchUsersByName")
+    @ApiOperation({ summary: "Search users by beginning or part of their names", tags: ["users"] })
+    @ApiOkResponse({ type: UserDto, isArray: true })
+    async searchUsersByName(@Body() query: SearchUserDto) {
+        return await this.usersService.searchUsersByName(
+            query.value,
+            (query.onlyBeginning ?? true).toString().toLowerCase() == "true"
+        );
     }
 
     @Get("get/:id")

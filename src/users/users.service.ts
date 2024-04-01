@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { QueryFailedError, Repository } from "typeorm";
+import { Like, QueryFailedError, Repository } from "typeorm";
 import { UserCreateDto } from "./user-create.dto";
 import { UserDto } from "./user.dto";
 import { User } from "./user.entity";
@@ -22,6 +22,20 @@ export class UsersService {
 
     getById(id: number): Promise<UserDto | null> {
         return this.usersRepository.findOneBy({ id });
+    }
+
+    async searchUsersByName(search: string, onlyBeginning: boolean) {
+        if (onlyBeginning) {
+            return await this.usersRepository.find({
+                where: { name: Like(`${search}%`) },
+                order: { name: { direction: "ASC" } }
+            });
+        }
+
+        return await this.usersRepository.find({
+            where: { name: Like(`%${search}%`) },
+            order: { name: { direction: "ASC" } }
+        });
     }
 
     async getPassHashByName(name: string): Promise<string | null> {

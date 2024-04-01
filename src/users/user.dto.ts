@@ -20,3 +20,16 @@ export class SetUserPictureDto {
     @ApiProperty()
     picture: string;
 }
+
+export class SearchUserDto {
+    @IsNotEmpty()
+    @ApiProperty()
+    value: string;
+
+    @ApiProperty({
+        default: true,
+        description:
+            "If true, search only usernames that begin with the value. If false, search usernames containing the value."
+    })
+    onlyBeginning: boolean;
+}
