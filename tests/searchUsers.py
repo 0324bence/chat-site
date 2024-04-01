@@ -8,14 +8,14 @@ def checkError(resp):
         print(f"ERROR: {resp.status_code}: {resp.text}")
         exit(1)
 
-resp = requests.get(API_BASE+"/users/searchUsersByName", data={"value": "us"})
+resp = requests.get(API_BASE+"/users/searchUsersByName", params={"value": "us"})
 checkError(resp)
 print(f"API returned: '{json.dumps(resp.json(), indent=2)}'");
 
-resp = requests.get(API_BASE+"/users/searchUsersByName", data={"value": "kin", "onlyBeginning": True})
+resp = requests.get(API_BASE+"/users/searchUsersByName", params={"value": "kin", "onlyBeginning": True})
 checkError(resp)
 print(f"API returned: '{json.dumps(resp.json(), indent=2)}'");
 
-resp = requests.get(API_BASE+"/users/searchUsersByName", data={"value": "kin", "onlyBeginning": False})
+resp = requests.get(API_BASE+"/users/searchUsersByName", params={"value": "kin", "onlyBeginning": False})
 checkError(resp)
 print(f"API returned: '{json.dumps(resp.json(), indent=2)}'");
