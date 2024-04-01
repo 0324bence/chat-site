@@ -9,6 +9,10 @@ import { User } from "./users/user.entity";
 import { Friendship } from "./users/friendship.entity";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MessagesService } from "./messages/messages.service";
+import { MessagesController } from "./messages/messages.controller";
+import { MessagesModule } from "./messages/messages.module";
+import { Message } from "./messages/message.entity";
 
 @Module({
     imports: [
@@ -23,12 +27,13 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
                 password: configService.get<string>("DB_PASS"),
                 database: configService.get<string>("DB_TABLE"),
                 synchronize: true,
-                entities: [User, Friendship]
+                entities: [User, Friendship, Message]
             }),
             inject: [ConfigService]
         }),
         UsersModule,
-        AuthModule
+        AuthModule,
+        MessagesModule
     ],
     controllers: [AppController],
     providers: [AppService]
