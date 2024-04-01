@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Friendship } from "../users/friendship.entity";
 import { Repository } from "typeorm";
 import { Message } from "./message.entity";
+import { UsersService } from "src/users/users.service";
 
 @Injectable()
 export class MessagesService {
@@ -10,7 +11,8 @@ export class MessagesService {
         @InjectRepository(Message)
         private messagesRepository: Repository<Message>,
         @InjectRepository(Friendship)
-        private friendshipsRepository: Repository<Friendship>
+        private friendshipsRepository: Repository<Friendship>,
+        private usersService: UsersService
     ) {}
 
     async sendMessage(sender: string, receiver: string, textContent: string) {
@@ -28,7 +30,9 @@ export class MessagesService {
             throw new BadRequestException("Message is empty");
         }
 
-        // TODO: Check if friend
+        if (!(await this.usersService.areFriends(sender, receiver))) {
+            throw new BadRequestException("Users are not friends");
+        }
 
         try {
             await this.messagesRepository.insert(msg);

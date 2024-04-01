@@ -29,6 +29,11 @@ print("Token: "+user1Token)
 
 
 print("user1 sends a message to user2")
-resp = requests.post(API_BASE+"/messages/sendTextMessage", headers={"Authorization": f"Bearer {user1Token}"}, data={"user": "user3", "textContent": "Hello world"})
+resp = requests.post(API_BASE+"/messages/sendTextMessage", headers={"Authorization": f"Bearer {user1Token}"}, data={"user": "user2", "textContent": "Hello world"})
+checkError(resp)
+
+
+print("user1 sends a message to user88")
+resp = requests.post(API_BASE+"/messages/sendTextMessage", headers={"Authorization": f"Bearer {user1Token}"}, data={"user": "user88", "textContent": "Hello world"})
 checkError(resp)
 
