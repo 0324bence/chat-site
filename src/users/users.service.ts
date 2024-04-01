@@ -120,15 +120,15 @@ export class UsersService {
         let friends1 = (
             await this.friendshipsRepository.find({
                 where: { user1Name: user, accepted: true },
-                select: { user2Name: true }
+                relations: ["user2"]
             })
-        ).map(x => x.user2Name);
+        ).map(x => x.user2);
         let friends2 = (
             await this.friendshipsRepository.find({
                 where: { user2Name: user, accepted: true },
-                select: { user1Name: true }
+                relations: ["user1"]
             })
-        ).map(x => x.user1Name);
+        ).map(x => x.user1);
         return friends1.concat(friends2);
     }
 }

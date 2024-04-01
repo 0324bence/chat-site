@@ -131,7 +131,7 @@ export class UsersController {
         description: "Only accepted friend requests are returned.",
         tags: ["users"]
     })
-    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    @ApiOkResponse({ type: UserDto, isArray: true, description: "Array of users" })
     async getFriends(@Request() req) {
         return await this.usersService.getFriends(req.user.username);
     }
