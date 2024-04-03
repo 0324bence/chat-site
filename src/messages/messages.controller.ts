@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, Request, Sse, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
+import { fromEvent, interval, map, Observable } from "rxjs";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { SendTextMessageDto, GetMessagesBetweenUsersDto } from "./message.dto";
 import { MessagesService } from "./messages.service";
@@ -20,7 +21,7 @@ export class MessagesController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: "Get all messages sent between two users", tags: ["messages"] })
-    async getMessagesFromUser(@Body() body: GetMessagesBetweenUsersDto, @Request() req) {
-        return await this.messagesService.getMessagesBetweenUsers(body.user, req.user.username);
+    async getMessagesFromUser(@Query() query: GetMessagesBetweenUsersDto, @Request() req) {
+        return await this.messagesService.getMessagesBetweenUsers(query.user, req.user.username);
     }
 }
