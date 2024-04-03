@@ -26,32 +26,10 @@ print("user1 sends friend request to user2")
 resp = requests.post(API_BASE+"/users/sendFriendRequest", headers={"Authorization": f"Bearer {user1Token}"}, data={"user": "user2"})
 checkError(resp)
 
-print("user1 gets incoming friend requests")
-resp = requests.get(API_BASE+"/users/getIncomingFriendRequests", headers={"Authorization": f"Bearer {user1Token}"})
+print("user2 declines the friend request sent by user1")
+resp = requests.post(API_BASE+"/users/declineFriendRequest", headers={"Authorization": f"Bearer {user2Token}"}, data={"user": "user1"})
 checkError(resp)
-print(resp.text)
 
-print("user2 gets incoming friend requests")
-resp = requests.get(API_BASE+"/users/getIncomingFriendRequests", headers={"Authorization": f"Bearer {user2Token}"})
-checkError(resp)
-print(resp.text)
-
-
-print("user1 gets sent friend requests")
-resp = requests.get(API_BASE+"/users/getSentFriendRequests", headers={"Authorization": f"Bearer {user1Token}"})
-checkError(resp)
-print(resp.text)
-
-print("user2 gets sent friend requests")
-resp = requests.get(API_BASE+"/users/getSentFriendRequests", headers={"Authorization": f"Bearer {user2Token}"})
-checkError(resp)
-print(resp.text)
-
-
-
-print("user2 accepts the friend request sent by user1")
-resp = requests.post(API_BASE+"/users/acceptFriendRequest", headers={"Authorization": f"Bearer {user2Token}"}, data={"user": "user1"})
-checkError(resp)
 
 print("user1 gets incoming friend requests")
 resp = requests.get(API_BASE+"/users/getIncomingFriendRequests", headers={"Authorization": f"Bearer {user1Token}"})
@@ -71,17 +49,5 @@ print(resp.text)
 
 print("user2 gets sent friend requests")
 resp = requests.get(API_BASE+"/users/getSentFriendRequests", headers={"Authorization": f"Bearer {user2Token}"})
-checkError(resp)
-print(resp.text)
-
-
-
-print("user1 gets friends")
-resp = requests.get(API_BASE+"/users/getFriends", headers={"Authorization": f"Bearer {user1Token}"})
-checkError(resp)
-print(resp.text)
-
-print("user2 gets friends")
-resp = requests.get(API_BASE+"/users/getFriends", headers={"Authorization": f"Bearer {user2Token}"})
 checkError(resp)
 print(resp.text)

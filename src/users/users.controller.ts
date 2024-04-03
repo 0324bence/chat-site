@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { AcceptFriendRequestDto, SendFriendRequestDto } from "./friend.dto";
+import { AcceptOrDeclineFriendRequestDto, SendFriendRequestDto } from "./friend.dto";
 import { UserCreateDto } from "./user-create.dto";
 import { SearchUserDto, SetUserPictureDto, UserDto } from "./user.dto";
 import { UsersService } from "./users.service";
@@ -93,8 +93,16 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: "Accept a friend request", tags: ["users"] })
-    async acceptFriendReq(@Body() body: AcceptFriendRequestDto, @Request() req) {
+    async acceptFriendReq(@Body() body: AcceptOrDeclineFriendRequestDto, @Request() req) {
         await this.usersService.acceptFriendReq(body.user, req["user"].username);
+    }
+
+    @Post("declineFriendRequest")
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: "Decline a friend request", tags: ["users"] })
+    async declineFriendReq(@Body() body: AcceptOrDeclineFriendRequestDto, @Request() req) {
+        await this.usersService.declineFriendReq(body.user, req["user"].username);
     }
 
     @Get("getIncomingFriendRequests")

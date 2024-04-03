@@ -7,7 +7,7 @@ export class SendFriendRequestDto {
     user: string;
 }
 
-export class AcceptFriendRequestDto {
+export class AcceptOrDeclineFriendRequestDto {
     @IsNotEmpty()
     @ApiProperty()
     user: string;

@@ -79,19 +79,33 @@ export class UsersService {
         }
     }
 
-    async acceptFriendReq(name1: string, name2: string) {
+    async _getFriendReq(name1: string, name2: string): Promise<Friendship | null> {
         if (name1 == name2) throw new BadRequestException("The users cannot be the same");
 
         let friendship = await this.friendshipsRepository
             .createQueryBuilder("friendship")
             .where("friendship.user1 = :name1 AND friendship.user2 = :name2", { name1, name2 })
             .getOne();
+        return friendship;
+    }
+
+    async acceptFriendReq(name1: string, name2: string) {
+        let friendship = await this._getFriendReq(name1, name2);
 
         if (friendship == null) throw new BadRequestException("No such friend request");
         if (friendship.accepted) throw new BadRequestException("Friend request has already been accepted");
 
         friendship.accepted = true;
         await this.friendshipsRepository.save(friendship);
+    }
+
+    async declineFriendReq(name1: string, name2: string) {
+        let friendship = await this._getFriendReq(name1, name2);
+
+        if (friendship == null) throw new BadRequestException("No such friend request");
+        if (friendship.accepted) throw new BadRequestException("Friend request has already been accepted");
+
+        await this.friendshipsRepository.remove(friendship);
     }
 
     async getIncomingFriendRequests(name: string) {
