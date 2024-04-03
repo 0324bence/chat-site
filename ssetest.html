@@ -1,0 +1,8 @@
+<script type="text/javascript">
+  const eventSource = new EventSource('http://127.0.0.1:3000/api/messages/sse');
+  eventSource.onmessage = ({ data }) => {
+    const message = document.createElement('li');
+    message.innerText = 'New message: ' + data;
+    document.body.appendChild(message);
+  }
+</script>

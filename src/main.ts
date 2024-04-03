@@ -3,7 +3,10 @@ import { AppModule } from "./app.module";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { cors: true });
+    const app = await NestFactory.create(AppModule, {
+        cors: { origin: "*", methods: "GET,HEAD,PUT,PATCH,POST,DELETE" },
+        forceCloseConnections: true
+    });
     app.setGlobalPrefix("api");
 
     const config = new DocumentBuilder().setTitle("Chat Site API").setDescription("Chat Site API").build();
