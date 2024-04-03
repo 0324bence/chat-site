@@ -10,3 +10,9 @@ export class SendTextMessageDto {
     @ApiProperty()
     textContent: string;
 }
+
+export class GetMessagesBetweenUsersDto {
+    @IsNotEmpty()
+    @ApiProperty()
+    user: string;
+}

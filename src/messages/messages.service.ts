@@ -43,4 +43,16 @@ export class MessagesService {
             throw new BadRequestException(e.sqlMessage);
         }
     }
+
+    async getMessagesBetweenUsers(user1: string, user2: string) {
+        return this.messagesRepository.find({
+            where: [
+                { senderName: user1, receiverName: user2 },
+                { senderName: user2, receiverName: user1 }
+            ],
+            order: {
+                timestamp: "ASC"
+            }
+        });
+    }
 }
