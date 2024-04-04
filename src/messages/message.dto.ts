@@ -16,3 +16,25 @@ export class GetMessagesBetweenUsersDto {
     @ApiProperty()
     user: string;
 }
+
+export class GetMessagesBetweenUsersResultDto {
+    @IsNotEmpty()
+    @ApiProperty()
+    id: number;
+
+    @IsNotEmpty()
+    @ApiProperty()
+    timestamp: string; // In ISO format
+
+    @IsNotEmpty()
+    @ApiProperty()
+    senderName: string;
+
+    @IsNotEmpty()
+    @ApiProperty()
+    receiverName: string;
+
+    @IsNotEmpty()
+    @ApiProperty()
+    textContent: string;
+}
