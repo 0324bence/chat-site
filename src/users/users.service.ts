@@ -112,7 +112,6 @@ export class UsersService {
         let friendships = await (
             await this.friendshipsRepository.findBy({ user2Name: name, accepted: false })
         ).map(x => x.user1Name);
-        console.log(friendships);
         return friendships;
     }
 
@@ -120,7 +119,6 @@ export class UsersService {
         let friendships = await (
             await this.friendshipsRepository.findBy({ user1Name: name, accepted: false })
         ).map(x => x.user2Name);
-        console.log(friendships);
         return friendships;
     }
 
