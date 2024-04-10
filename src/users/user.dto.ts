@@ -15,12 +15,6 @@ export class UserDto {
     picture: string;
 }
 
-export class SetUserPictureDto {
-    @IsNotEmpty()
-    @ApiProperty()
-    picture: string;
-}
-
 export class SearchUserDto {
     @IsNotEmpty()
     @ApiProperty()
