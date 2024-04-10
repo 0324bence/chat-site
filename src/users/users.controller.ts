@@ -121,7 +121,7 @@ export class UsersController {
         description: "Only not accepted friend requests are returned, because accepted requests represent friends.",
         tags: ["users"]
     })
-    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    @ApiOkResponse({ type: UserDto, isArray: true, description: "Array of users" })
     async getIncomingFriendRequests(@Request() req) {
         return await this.usersService.getIncomingFriendRequests(req.user.username);
     }
@@ -134,7 +134,7 @@ export class UsersController {
         description: "Only not accepted friend requests are returned, because accepted requests represent friends.",
         tags: ["users"]
     })
-    @ApiOkResponse({ type: String, isArray: true, description: "Array of usernames" })
+    @ApiOkResponse({ type: UserDto, isArray: true, description: "Array of users" })
     async getSentFriendRequests(@Request() req) {
         return await this.usersService.getSentFriendRequests(req.user.username);
     }

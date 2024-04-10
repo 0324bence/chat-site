@@ -120,16 +120,18 @@ export class UsersService {
     }
 
     async getIncomingFriendRequests(name: string) {
-        let friendships = await (
-            await this.friendshipsRepository.findBy({ user2Name: name, accepted: false })
-        ).map(x => x.user1Name);
+        let friendships = await this.friendshipsRepository.find({
+            where: { user2Name: name, accepted: false },
+            relations: ["user1"]
+        });
         return friendships;
     }
 
     async getSentFriendRequests(name: string) {
-        let friendships = await (
-            await this.friendshipsRepository.findBy({ user1Name: name, accepted: false })
-        ).map(x => x.user2Name);
+        let friendships = await this.friendshipsRepository.find({
+            where: { user1Name: name, accepted: false },
+            relations: ["user2"]
+        });
         return friendships;
     }
 
