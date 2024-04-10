@@ -9,13 +9,16 @@ import {
     Body,
     UseGuards,
     Request,
-    Header
+    Header,
+    UseInterceptors,
+    UploadedFile
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiOperation } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiOperation, ApiParam } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { AcceptOrDeclineFriendRequestDto, SendFriendRequestDto } from "./friend.dto";
 import { UserCreateDto } from "./user-create.dto";
-import { SearchUserDto, SetUserPictureDto, UserDto } from "./user.dto";
+import { SearchUserDto, UserDto } from "./user.dto";
 import { UsersService } from "./users.service";
 
 @Controller("users")
@@ -74,11 +77,16 @@ export class UsersController {
     }
 
     @Post("setPicture")
+    @UseInterceptors(FileInterceptor("file"))
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
-    @ApiOperation({ summary: "Set a user's profile picture", tags: ["users"] })
-    setPicture(@Body() picture: SetUserPictureDto, @Request() req) {
-        this.usersService.setUserPicture(req["user"].username, picture.picture);
+    @ApiOperation({
+        summary: "Set a user's profile picture.",
+        tags: ["users"]
+    })
+    @ApiParam({ schema: { type: "file" }, name: "file" })
+    async setPicture(@UploadedFile() file: Express.Multer.File, @Request() req) {
+        await this.usersService.setUserPicture(req["user"].username, file);
     }
 
     @Post("sendFriendRequest")

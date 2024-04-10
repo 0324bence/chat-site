@@ -58,11 +58,22 @@ export class UsersService {
         return await this.usersRepository.findOneBy({ name });
     }
 
-    async setUserPicture(name: string, picture: string) {
-        console.log(`Setting picture of user: ${name} to ${picture}`);
-        var user = await this.usersRepository.findOneBy({ name });
-        user.picture = picture;
-        await this.usersRepository.save(user);
+    async setUserPicture(name: string, file: Express.Multer.File) {
+        if (!file.mimetype.startsWith("image/")) {
+            throw new BadRequestException("File has wrong MIME type");
+        }
+
+        console.log(`Setting picture of user: ${name} to ${file}`);
+        let user = await this.usersRepository.findOneBy({ name });
+
+        let data = "data:" + file.mimetype + ";base64," + file.buffer.toString("base64");
+        user.picture = data;
+
+        try {
+            await this.usersRepository.save(user);
+        } catch {
+            throw new BadRequestException("Failed to set profile picture");
+        }
     }
 
     async addFriendReq(name1: string, name2: string) {
